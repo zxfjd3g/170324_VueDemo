@@ -3,6 +3,8 @@
  */
 import Vue from 'vue'
 import app from './components/app.vue'
+import './index.css'
+
 /*
 new Vue({
   el: '#app',
@@ -15,7 +17,7 @@ new Vue({
 new Vue({
   el: '#app',
   render: h => h(app)
-  /*render: function (createElement) {
+  /* render: function (createElement) {
     return createElement(app)  // 返回的主是<app />
-  }*/
+  } */
 })
