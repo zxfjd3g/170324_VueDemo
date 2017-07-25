@@ -1,4 +1,4 @@
-# 1.个常用的库
+# 1. 2个常用的库
 	vue-resource: vue插件, 非官方库, vue1.x使用广泛
 	axios: 通用的ajax请求库, 官方推荐, vue2.x使用广泛
 
@@ -12,7 +12,8 @@
     Vue.use(VueResource)
    
     // 通过vue/组件对象发送ajax请求
-    this.$http.get('/someUrl').then((response) => {
+    this.$http.get('/someUrl')
+    .then((response) => {
       // success callback
       console.log(response.body) //返回结果数据
     }, (response) => {
