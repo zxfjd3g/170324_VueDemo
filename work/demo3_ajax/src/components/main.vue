@@ -1,36 +1,15 @@
 <template>
   <div>
-    <p>{{searchName}}</p>
+    <h2 v-show="firstView">Enter name to search</h2>
+    <h2 v-show="loading">Loading...</h2>
+
+    <h2 v-show="errorMsg">{{errorMsg}}</h2>
     <div class="row">
-      <div class="card">
-        <a href="https://github.com/reactjs" target="_blank">
-          <img src="https://avatars.githubusercontent.com/u/6412038?v=3" style='width: 100px'/>
+      <div class="card" v-for="user in users">
+        <a :href="user.userUrl" target="_blank">
+          <img :src="user.avatar" style='width: 100px'/>
         </a>
-        <p class="card-text">reactjs</p>
-      </div>
-      <div class="card">
-        <a href="https://github.com/reactjs" target="_blank">
-          <img src="https://avatars.githubusercontent.com/u/6412038?v=3" style='width: 100px'/>
-        </a>
-        <p class="card-text">reactjs</p>
-      </div>
-      <div class="card">
-        <a href="https://github.com/reactjs" target="_blank">
-          <img src="https://avatars.githubusercontent.com/u/6412038?v=3" style='width: 100px'/>
-        </a>
-        <p class="card-text">reactjs</p>
-      </div>
-      <div class="card">
-        <a href="https://github.com/reactjs" target="_blank">
-          <img src="https://avatars.githubusercontent.com/u/6412038?v=3" style='width: 100px'/>
-        </a>
-        <p class="card-text">reactjs</p>
-      </div>
-      <div class="card">
-        <a href="https://github.com/reactjs" target="_blank">
-          <img src="https://avatars.githubusercontent.com/u/6412038?v=3" style='width: 100px'/>
-        </a>
-        <p class="card-text">reactjs</p>
+        <p class="card-text">{{user.username}}</p>
       </div>
     </div>
   </div>
@@ -41,14 +20,40 @@
 
   export default {
     props: ['searchName'],
-
+    data () {
+      return {
+        firstView: true,
+        loading: false,
+        errorMsg: null,
+        users: []
+      }
+    },
     watch: {
       searchName: function (value) { // value就是searchName最新的值
+        // 更新状态(请求中)
+        this.firstView = false
+        this.loading = true
+        this.users = []
+        this.errorMsg = null
+
         // 发ajax请求
-        const url = `https://api.github.com/search/users?q=${value}`
+        const url = `https://api.github.com/search2/users?q=${value}`
         axios.get(url)
           .then(response => {
+            // 更新状态(请求成功)
             console.log(response.data)
+            this.loading = false
+            this.users = response.data.items.map(item => {
+              return {
+                userUrl: item.html_url,
+                avatar: item.avatar_url,
+                username: item.login
+              }
+            })
+          })
+          .catch(error => {
+            this.loading = false
+            this.errorMsg = '请求失败啦!!!'
           })
       }
     }
