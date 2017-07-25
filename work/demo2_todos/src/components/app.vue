@@ -3,7 +3,7 @@
     <div class="todo-wrap">
       <demo-header :add="add"></demo-header>
       <list :todos="todos" :delete-todo="deleteTodo"></list>
-      <demo-footer></demo-footer>
+      <demo-footer :todos="todos" :remove-completed="removeCompleted" :select-all-todos="selectAllTodos"></demo-footer>
     </div>
   </div>
 </template>
@@ -11,17 +11,19 @@
   import header from './header.vue'
   import list from './list.vue'
   import footer from './footer.vue'
+  import localStorageUtil from '../util/localStorageUtil'
 
   export default {
 
     data () {
       return {
-        todos: [
-          {title: '吃饭', complete: false},
-          {title: '睡觉', complete: true},
-          {title: 'test', complete: false},
-        ]
+        todos: []
       }
+    },
+
+    created () {
+      // 从local中读取
+      this.todos = localStorageUtil.getTodos()
     },
 
     methods: {
@@ -30,6 +32,24 @@
       },
       deleteTodo (index) {
         this.todos.splice(index, 1)
+      },
+      removeCompleted () {
+        this.todos = this.todos.filter(todo => !todo.complete)
+      },
+      selectAllTodos (isSelect) {
+        this.todos.forEach(todo => {
+          todo.complete = isSelect
+        })
+      }
+    },
+
+    watch: {
+      todos: {
+        deep: true, // 深度监视
+        /*handler: function (val) { // todos发生了变化
+         localStorageUtil.saveTodos(val) // 保存todos
+         },*/
+        handler: localStorageUtil.saveTodos
       }
     },
 
