@@ -15,7 +15,7 @@
     props: {
       todos: Array,
       removeCompleted: Function,
-      selectAllTodos: Function
+      // selectAllTodos: Function
     },
     computed: {
       completeSize () {
@@ -43,7 +43,8 @@
         },
         set (value) { // 当用户通过操作的方式改变了勾选状态
           // 更新todos
-          this.selectAllTodos(value)
+          // this.selectAllTodos(value)
+          this.$emit('selectAllTodos', value)
         }
       }
     }

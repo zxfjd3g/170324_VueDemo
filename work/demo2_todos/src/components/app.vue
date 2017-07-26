@@ -1,9 +1,9 @@
 <template>
   <div class="todo-container">
     <div class="todo-wrap">
-      <demo-header :add="add"></demo-header>
+      <demo-header @add_todo="add"></demo-header>
       <list :todos="todos" :delete-todo="deleteTodo"></list>
-      <demo-footer :todos="todos" :remove-completed="removeCompleted" :select-all-todos="selectAllTodos"></demo-footer>
+      <demo-footer :todos="todos" :remove-completed="removeCompleted" ref="footer"></demo-footer>
     </div>
   </div>
 </template>
@@ -24,6 +24,14 @@
     created () {
       // 从local中读取
       this.todos = localStorageUtil.getTodos()
+
+      // 绑定自定义监听(给footer组件对象)
+      // this.$refs.footer.$on('selectAllTodos', this.selectAllTodos)  // 不能使用, 太早了, 模板还没有编译
+    },
+
+    mounted () {
+      // 绑定自定义监听(给footer组件对象)
+      this.$refs.footer.$on('selectAllTodos', this.selectAllTodos)
     },
 
     methods: {
