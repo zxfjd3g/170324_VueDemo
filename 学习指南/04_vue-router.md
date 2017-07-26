@@ -85,7 +85,7 @@
     <router-link to="/home/news">News</router-link>
     <router-link to="/home/message">Message</router-link>
 
-# 5. 向路由组件传递数据
+# 5. 如何向路由组件传递数据?
 ## 路由路径携带参数
 	1.配置路由
       children: [
@@ -96,7 +96,7 @@
       ]
     2.路由路径
       <router-link :to="'/home/message/mdetail/'+m.id">{{m.title}}</router-link>
-    3.路由组件中读取请求参数
+    3.路由组件中读取请求参数(所有路由组件对象都有一个属性: $route)
       this.$route.params.id
 ## <router-view>属性携带数据
     <router-view :msg="msg"></router-view>

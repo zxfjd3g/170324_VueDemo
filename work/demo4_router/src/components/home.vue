@@ -2,6 +2,9 @@
   <div>
     <h2>Home</h2>
     <p>Home route component!</p>
+    <p>
+      <input type="text">
+    </p>
     <div>
       <ul class="nav nav-tabs">
         <li>

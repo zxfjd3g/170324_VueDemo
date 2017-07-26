@@ -23,7 +23,9 @@
         <div class="panel">
           <div class="panel-body">
             <!--显示当前路由组件界面-->
-            <router-view></router-view>
+            <keep-alive>
+              <router-view msg="atguigu"></router-view>
+            </keep-alive>
           </div>
         </div>
       </div>
